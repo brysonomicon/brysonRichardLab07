@@ -1,21 +1,16 @@
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CountryLab
 {
+    private static Path dataPath;
 
-
-    CountryLab()
-    {
-
-    }
-
-    public static void main(final String[] args)
+    static
     {
         try
         {
@@ -28,12 +23,38 @@ public class CountryLab
 
         try
         {
-            dataFileCreation();
+           dataPath = dataFileCreation();
         }
         catch(IOException e)
         {
             e.printStackTrace();
         }
+    }
+    
+    private List<String> countries;
+
+    CountryLab()
+    {
+        
+    }
+
+    public static void main(final String[] args)
+    {
+        final Path source;
+        List<String> countries = List.of();
+        
+        source = Paths.get("week8countries.txt");
+        
+        try
+        {
+            countries = createList(source);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        
+        countries.forEach(System.out::println);
     }
 
     public static void directoryCreation()
@@ -57,7 +78,7 @@ public class CountryLab
         }
     }
 
-    public static void dataFileCreation()
+    public static Path dataFileCreation()
             throws IOException
     {
         final Path matchesDir;
@@ -75,30 +96,17 @@ public class CountryLab
         {
             System.out.println("File already exists");
         }
+
+        return dataFilePath;
     }
 
-    private void loadFiles()
-            throws FileNotFoundException
+    static List<String> createList(final Path sourceFile) 
+            throws IOException
     {
-        final File file;
-        final Scanner sc;
-
-        file = new File("week8countries.txt");
-
-        try(final Scanner scan = new Scanner(file))
-        {
-            while(scan.hasNextLine())
-            {
-                final String line;
-
-                line = scan.nextLine();
-
-
-            }
-        }
-        catch(final FileNotFoundException e)
-        {
-            throw new FileNotFoundException("File not found: " + e.getMessage());
-        }
+        final List<String> countryList;
+        
+        countryList = Files.readAllLines(sourceFile);
+        
+        return countryList;
     }
 }
