@@ -28,7 +28,9 @@ public class CountryLabTest {
     }
 
     @Test
-    public void testCountryNamesLongerThan10Characters() throws IOException {
+    public void testCountryNamesLongerThan10Characters()
+            throws IOException
+    {
         List<String> lines = Files.readAllLines(dataFile);
         String expectedHeader = "Country names longer than 10 characters:";
         assertTrue(lines.contains(expectedHeader), "Header for long country names should be present");
@@ -38,7 +40,9 @@ public class CountryLabTest {
     }
 
     @Test
-    public void testCountryNamesStartingWithA() throws IOException {
+    public void testCountryNamesStartingWithA()
+            throws IOException
+    {
         List<String> lines = Files.readAllLines(dataFile);
         String expectedHeader = "Country names starting with 'A':";
         assertTrue(lines.contains(expectedHeader), "Header for countries starting with 'A' should be present");
