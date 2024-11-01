@@ -4,11 +4,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class CountryLab
+class CountryLab
 {
     private final List<String> countries;
 
-    public CountryLab()
+    CountryLab()
             throws IOException
     {
         final Path source;
@@ -31,21 +31,21 @@ public class CountryLab
 
     public static void main(final String[] args)
     {
+        final CountryLab lab;
+
         try
         {
-            final CountryLab lab;
-
             lab = new CountryLab();
 
             lab.countries.forEach(System.out::println);
         }
         catch (IOException e)
         {
-            System.err.println("Uh oh! Something went wrong creating CountryLab: " + e.getMessage());
+            throw new RuntimeException("Uh oh! Something went wrong creating CountryLab.", e);
         }
     }
 
-    public static void directoryCreation()
+    void directoryCreation()
             throws IOException
     {
         final Path matchesDir;
@@ -63,7 +63,7 @@ public class CountryLab
         }
     }
 
-    public static void dataFileCreation()
+    void dataFileCreation()
             throws IOException
     {
         final Path dataFile;
@@ -81,7 +81,7 @@ public class CountryLab
         }
     }
 
-    public static List<String> createList(final Path sourceFile)
+    public List<String> createList(final Path sourceFile)
             throws IOException
     {
         return Files.readAllLines(sourceFile);
