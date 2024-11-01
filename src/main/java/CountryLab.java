@@ -1,66 +1,39 @@
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CountryLab
 {
-    private static Path dataPath;
+    private static final List<String> countries;
 
     static
     {
         try
         {
+            final Path source;
+
             directoryCreation();
+            dataFileCreation();
+            source = Paths.get("week8countries.txt");
+            countries = createList(source);
         }
-        catch(IOException e)
+        catch (IOException e)
         {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to initialize countries list", e);
         }
-
-        try
-        {
-           dataPath = dataFileCreation();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-    
-    private List<String> countries;
-
-    CountryLab()
-    {
-        
     }
 
     public static void main(final String[] args)
     {
-        final Path source;
-        List<String> countries = List.of();
-        
-        source = Paths.get("src","week8countries.txt");
-        
-        try
-        {
-            countries = createList(source);
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        
         countries.forEach(System.out::println);
     }
 
     public static void directoryCreation()
             throws IOException
     {
-        final Path matches;
+        final Path   matches;
         final String folderName;
 
         folderName = "matches";
