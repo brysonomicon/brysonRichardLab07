@@ -6,63 +6,73 @@ import java.util.List;
 
 public class CountryLab
 {
-    private static final List<String> countries;
+    private final List<String> countries;
 
-    static
+    public CountryLab()
+            throws IOException
     {
-        try
-        {
-            final Path source;
+        final Path source;
 
-            directoryCreation();
-            dataFileCreation();
-            source = Paths.get("week8countries.txt");
-            countries = createList(source);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Failed to initialize countries list", e);
-        }
+        directoryCreation();
+        dataFileCreation();
+
+        source    = getSourcePath();
+        countries = createList(source);
+    }
+
+    private static Path getSourcePath()
+    {
+        final Path source;
+
+        source = Paths.get("week8countries.txt");
+
+        return source;
     }
 
     public static void main(final String[] args)
     {
-        countries.forEach(System.out::println);
+        try
+        {
+            final CountryLab lab;
+
+            lab = new CountryLab();
+
+            lab.countries.forEach(System.out::println);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Uh oh! Something went wrong creating CountryLab: " + e.getMessage());
+        }
     }
 
     public static void directoryCreation()
             throws IOException
     {
-        final Path   matches;
-        final String folderName;
+        final Path matchesDir;
 
-        folderName = "matches";
+        matchesDir = Paths.get("matches");
 
-        matches = Paths.get(folderName);
-
-        if(Files.exists(matches))
+        if (Files.notExists(matchesDir))
         {
-            System.out.println("Directory already exists");
+            Files.createDirectories(matchesDir);
+            System.out.println("Folder created");
         }
         else
         {
-            System.out.println("Folder created");
-            Files.createDirectories(matches);
+            System.out.println("Directory already exists");
         }
     }
 
     public static void dataFileCreation()
             throws IOException
     {
-        final Path matchesDir;
-        final Path dataFilePath;
+        final Path dataFile;
 
-        matchesDir   = Paths.get("matches");
-        dataFilePath = matchesDir.resolve("data.txt");
+        dataFile = Paths.get("matches", "data.txt");
 
-        if(Files.notExists(dataFilePath))
+        if (Files.notExists(dataFile))
         {
-            Files.createFile(dataFilePath);
+            Files.createFile(dataFile);
             System.out.println("File created successfully");
         }
         else
@@ -71,13 +81,9 @@ public class CountryLab
         }
     }
 
-    static List<String> createList(final Path sourceFile) 
+    public static List<String> createList(final Path sourceFile)
             throws IOException
     {
-        final List<String> countryList;
-        
-        countryList = Files.readAllLines(sourceFile);
-        
-        return countryList;
+        return Files.readAllLines(sourceFile);
     }
 }
