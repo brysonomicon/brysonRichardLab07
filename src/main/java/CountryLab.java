@@ -3,9 +3,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 class CountryLab
 {
@@ -49,13 +49,13 @@ class CountryLab
         final Writeable    writeLongNames;
 
         longNames = lab.countries.stream()
-                        .filter(c -> c != null)
+                        .filter(Objects::nonNull)
                         .filter(c -> !c.isBlank())
                         .filter(c -> c.length() > 10)
                         .toList();
 
         writeLongNames = filePath -> {
-            try(final BufferedWriter writer = Files.newBufferedWriter(filePath))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names longer than 10 characters:\n");
                 for(final String country : longNames)
@@ -77,6 +77,35 @@ class CountryLab
         System.out.println("-------------------------------------");
 
         // Countries that start with the letter A
+
+        final List<String> countriesWithA;
+        final Writeable    writeACountries;
+
+        countriesWithA = lab.getCountries().stream()
+                        .filter(Objects::nonNull)
+                        .filter(c -> !c.isBlank())
+                        .filter(c -> c.toUpperCase().contains("A"))
+                        .toList();
+
+        writeACountries = filePath -> {
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country names starting with 'A':\n");
+                for(final String country : countriesWithA)
+                {
+                    writer.write(country + System.lineSeparator());
+                }
+            }
+        };
+
+        try
+        {
+            writeACountries.write(dataFile);
+        }
+        catch(IOException e)
+        {
+            System.err.println("Something went wrong writing data file." + e.getMessage());
+        }
 
         System.out.println("-------------------------------------");
 
