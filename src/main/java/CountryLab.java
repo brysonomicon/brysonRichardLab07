@@ -1,8 +1,11 @@
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class CountryLab
 {
@@ -20,18 +23,12 @@ class CountryLab
         countries = createList(source);
     }
 
-    private static Path getSourcePath()
-    {
-        final Path source;
-
-        source = Paths.get("week8countries.txt");
-
-        return source;
-    }
-
     public static void main(final String[] args)
     {
         final CountryLab lab;
+        final Path dataFile;
+
+        dataFile = Paths.get("matches", "data.txt");
 
         try
         {
@@ -43,6 +40,116 @@ class CountryLab
         {
             throw new RuntimeException("Uh oh! Something went wrong creating CountryLab.", e);
         }
+
+        System.out.println("-------------------------------------");
+
+        // Countries with names longer than 10 characters
+
+        final List<String> longNames;
+        final Writeable    writeLongNames;
+
+        longNames = lab.countries.stream()
+                        .filter(c -> c != null)
+                        .filter(c -> !c.isBlank())
+                        .filter(c -> c.length() > 10)
+                        .toList();
+
+        writeLongNames = filePath -> {
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath))
+            {
+                writer.write("Country names longer than 10 characters:\n");
+                for(final String country : longNames)
+                {
+                    writer.write(country + System.lineSeparator());
+                }
+            }
+        };
+
+        try
+        {
+            writeLongNames.write(dataFile);
+        }
+        catch(IOException e)
+        {
+            System.err.println("Something went wrong writing data file." + e.getMessage());
+        }
+
+        System.out.println("-------------------------------------");
+
+        // Countries that start with the letter A
+
+        System.out.println("-------------------------------------");
+
+        // Countries with names shorter than 5 characters
+
+        System.out.println("-------------------------------------");
+
+        // Countries that end with "land"
+
+        System.out.println("-------------------------------------");
+
+        // Countries containing "United"
+
+        System.out.println("-------------------------------------");
+
+        // Countries sorted in ascending order
+
+        System.out.println("-------------------------------------");
+
+        // Countries sorted in descending order
+
+        System.out.println("-------------------------------------");
+
+        // Countries with unique first letters
+
+        System.out.println("-------------------------------------");
+
+        // Count of all countries
+
+        System.out.println("-------------------------------------");
+
+        // Longest country name
+
+        System.out.println("-------------------------------------");
+
+        // Shortest country name
+
+        System.out.println("-------------------------------------");
+
+        // Country names printed in UPPERCASE
+
+        System.out.println("-------------------------------------");
+
+        // Countries with more than one word in the name
+
+        System.out.println("-------------------------------------");
+
+        // Country names mapped to character counts - Country: N characters
+
+        System.out.println("-------------------------------------");
+
+        // Boolean outputs true if any country starts with "Z", false if not
+
+        System.out.println("-------------------------------------");
+
+        // Boolean output true if all country names have length > 3
+
+        System.out.println("-------------------------------------");
+
+    }
+
+    private static Path getSourcePath()
+    {
+        final Path source;
+
+        source = Paths.get("week8countries.txt");
+
+        return source;
+    }
+
+    public List<String> getCountries()
+    {
+        return countries;
     }
 
     void directoryCreation()
