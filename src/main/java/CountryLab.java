@@ -43,7 +43,7 @@ public class CountryLab
         final Path source;
         List<String> countries = List.of();
         
-        source = Paths.get("week8countries.txt");
+        source = Paths.get("src","week8countries.txt");
         
         try
         {
