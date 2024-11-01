@@ -7,10 +7,24 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The CountryLab class satisfies all the requirements of the week 8 lab for
+ * comp 2522.
+ *
+ * @author Bryson Lindy
+ * @author Richard Ho
+ * @author Maksim Sadreev
+ */
 class CountryLab
 {
     private final List<String> countries;
 
+    /**
+     * Constructs a new CountryLab instance, initializing the list of countries
+     * and setting up the necessary directories and data files.
+     *
+     * @throws IOException if an I/O error occurs during file or directory creation.
+     */
     CountryLab()
             throws IOException
     {
@@ -23,6 +37,12 @@ class CountryLab
         countries = createList(source);
     }
 
+    /**
+     * Main method to run the CountryLab program. Initializes the CountryLab instance,
+     * filters the countries based on various criteria, and writes the results to a file.
+     *
+     * @param args Command-line arguments (not used in this program).
+     */
     public static void main(final String[] args)
     {
         final CountryLab lab;
@@ -176,11 +196,21 @@ class CountryLab
         return source;
     }
 
+    /**
+     * Gets the list of countries loaded from the source file.
+     *
+     * @return A List of country names.
+     */
     public List<String> getCountries()
     {
         return countries;
     }
 
+    /**
+     * Creates the "matches" directory if it does not already exist.
+     *
+     * @throws IOException if an I/O error occurs while creating the directory.
+     */
     void directoryCreation()
             throws IOException
     {
@@ -199,6 +229,11 @@ class CountryLab
         }
     }
 
+    /**
+     * Creates the "data.txt" file within the "matches" directory if it does not already exist.
+     *
+     * @throws IOException if an I/O error occurs while creating the file.
+     */
     void dataFileCreation()
             throws IOException
     {
@@ -217,7 +252,14 @@ class CountryLab
         }
     }
 
-    public List<String> createList(final Path sourceFile)
+    /**
+     * Loads the list of country names from the specified source file.
+     *
+     * @param sourceFile The Path to the file containing the country names.
+     * @return A List of country names read from the file.
+     * @throws IOException if an I/O error occurs while reading the file.
+     */
+    List<String> createList(final Path sourceFile)
             throws IOException
     {
         return Files.readAllLines(sourceFile);
