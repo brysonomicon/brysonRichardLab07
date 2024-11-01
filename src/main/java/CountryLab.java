@@ -51,7 +51,7 @@ public class CountryLab
         }
     }
 
-    public static Path dataFileCreation()
+    public static void dataFileCreation()
             throws IOException
     {
         final Path matchesDir;
@@ -69,8 +69,6 @@ public class CountryLab
         {
             System.out.println("File already exists");
         }
-
-        return dataFilePath;
     }
 
     static List<String> createList(final Path sourceFile) 
