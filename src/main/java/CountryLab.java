@@ -170,7 +170,7 @@ class CountryLab
                 .max(Comparator.comparingInt(String::length));
 
         writeLongestCountry = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
                 writer.write("Longest country name:\n");
                 writer.write(longestCountry.orElse("No valid country names found.") + System.lineSeparator());
             }
@@ -178,7 +178,9 @@ class CountryLab
 
         try {
             writeLongestCountry.write(dataFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.err.println("Something went wrong writing the longest country name: " + e.getMessage());
         }
 
@@ -193,7 +195,7 @@ class CountryLab
                 .min(Comparator.comparingInt(String::length));
 
         writeShortestCountry = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Shortest country name:\n");
                 writer.write(shortestCountry.orElse("No valid country names found.") + System.lineSeparator());
@@ -221,7 +223,7 @@ class CountryLab
                 .toList();
 
         writeUpperCaseCountries = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names in uppercase:\n");
                 for (final String country : upperCaseCountries)
@@ -252,7 +254,7 @@ class CountryLab
                 .toList();
 
         writeMultiWordCountries = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names with more than one word:\n");
                 if (multiWordCountries.isEmpty())
@@ -290,7 +292,7 @@ class CountryLab
                 .toList();
 
         writeCountryCharacterCounts = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names with their character counts:\n");
                 if (countryCharacterCounts.isEmpty())
@@ -327,7 +329,7 @@ class CountryLab
                 .anyMatch(c -> c.trim().startsWith("Z"));
 
         writeAnyStartsWithZ = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Any country name starts with 'Z':\n");
                 writer.write(anyStartsWithZ + System.lineSeparator());
@@ -354,7 +356,7 @@ class CountryLab
                 .allMatch(c -> c.trim().length() > 3);
 
         writeAllNamesLongerThanThree = filePath -> {
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("All country names longer than 3 characters:\n");
                 writer.write(allNamesLongerThanThree + System.lineSeparator());
