@@ -4,8 +4,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The CountryLab class satisfies all the requirements of the week 8 lab for
@@ -69,10 +71,10 @@ class CountryLab
         final Writeable    writeLongNames;
 
         longNames = lab.countries.stream()
-                        .filter(Objects::nonNull)
-                        .filter(c -> !c.isBlank())
-                        .filter(c -> c.length() > 10)
-                        .toList();
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .filter(c -> c.length() > 10)
+                .toList();
 
         writeLongNames = filePath -> {
             try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
@@ -102,10 +104,10 @@ class CountryLab
         final Writeable    writeACountries;
 
         countriesWithA = lab.getCountries().stream()
-                        .filter(Objects::nonNull)
-                        .filter(c -> !c.isBlank())
-                        .filter(c -> c.toUpperCase().contains("A"))
-                        .toList();
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .filter(c -> c.toUpperCase().contains("A"))
+                .toList();
 
         writeACountries = filePath -> {
             try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
@@ -159,32 +161,214 @@ class CountryLab
 
         // Longest country name
 
-        System.out.println("-------------------------------------");
+        final Optional<String> longestCountry;
+        final Writeable        writeLongestCountry;
+
+        longestCountry = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .max(Comparator.comparingInt(String::length));
+
+        writeLongestCountry = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+                writer.write("Longest country name:\n");
+                writer.write(longestCountry.orElse("No valid country names found.") + System.lineSeparator());
+            }
+        };
+
+        try {
+            writeLongestCountry.write(dataFile);
+        } catch (IOException e) {
+            System.err.println("Something went wrong writing the longest country name: " + e.getMessage());
+        }
 
         // Shortest country name
 
-        System.out.println("-------------------------------------");
+        final Optional<String> shortestCountry;
+        final Writeable        writeShortestCountry;
+
+        shortestCountry = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .min(Comparator.comparingInt(String::length));
+
+        writeShortestCountry = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Shortest country name:\n");
+                writer.write(shortestCountry.orElse("No valid country names found.") + System.lineSeparator());
+            }
+        };
+
+        try
+        {
+            writeShortestCountry.write(dataFile);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Something went wrong writing the shortest country name: " + e.getMessage());
+        }
 
         // Country names printed in UPPERCASE
 
-        System.out.println("-------------------------------------");
+        final List<String> upperCaseCountries;
+        final Writeable    writeUpperCaseCountries;
+
+        upperCaseCountries = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .map(String::toUpperCase)
+                .toList();
+
+        writeUpperCaseCountries = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country names in uppercase:\n");
+                for (final String country : upperCaseCountries)
+                {
+                    writer.write(country + System.lineSeparator());
+                }
+            }
+        };
+
+        try
+        {
+            writeUpperCaseCountries.write(dataFile);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Something went wrong writing the uppercase country names: " + e.getMessage());
+        }
 
         // Countries with more than one word in the name
 
-        System.out.println("-------------------------------------");
+        final List<String> multiWordCountries;
+        final Writeable    writeMultiWordCountries;
+
+        multiWordCountries = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .filter(c -> c.trim().contains(" "))
+                .toList();
+
+        writeMultiWordCountries = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country names with more than one word:\n");
+                if (multiWordCountries.isEmpty())
+                {
+                    writer.write("No country names with more than one word found.\n");
+                }
+                else
+                {
+                    for (final String country : multiWordCountries)
+                    {
+                        writer.write(country + System.lineSeparator());
+                    }
+                }
+            }
+        };
+
+        try
+        {
+            writeMultiWordCountries.write(dataFile);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Something went wrong writing the country names with more than one word: " + e.getMessage());
+        }
 
         // Country names mapped to character counts - Country: N characters
 
-        System.out.println("-------------------------------------");
+        final List<String> countryCharacterCounts;
+        final Writeable    writeCountryCharacterCounts;
+
+        countryCharacterCounts = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .map(c -> c + ": " + c.length() + " characters")
+                .toList();
+
+        writeCountryCharacterCounts = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country names with their character counts:\n");
+                if (countryCharacterCounts.isEmpty())
+                {
+                    writer.write("No valid country names found.\n");
+                }
+                else
+                {
+                    for (final String entry : countryCharacterCounts)
+                    {
+                        writer.write(entry + System.lineSeparator());
+                    }
+                }
+            }
+        };
+
+        try
+        {
+            writeCountryCharacterCounts.write(dataFile);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Something went wrong writing the country names with character counts: " + e.getMessage());
+        }
 
         // Boolean outputs true if any country starts with "Z", false if not
 
-        System.out.println("-------------------------------------");
+        final boolean   anyStartsWithZ;
+        final Writeable writeAnyStartsWithZ;
+
+        anyStartsWithZ = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .anyMatch(c -> c.trim().startsWith("Z"));
+
+        writeAnyStartsWithZ = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Any country name starts with 'Z':\n");
+                writer.write(anyStartsWithZ + System.lineSeparator());
+            }
+        };
+
+        try
+        {
+            writeAnyStartsWithZ.write(dataFile);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Something went wrong writing the result for names starting with 'Z': " + e.getMessage());
+        }
 
         // Boolean output true if all country names have length > 3
 
-        System.out.println("-------------------------------------");
+        final boolean   allNamesLongerThanThree;
+        final Writeable writeAllNamesLongerThanThree;
 
+        allNamesLongerThanThree = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .allMatch(c -> c.trim().length() > 3);
+
+        writeAllNamesLongerThanThree = filePath -> {
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("All country names longer than 3 characters:\n");
+                writer.write(allNamesLongerThanThree + System.lineSeparator());
+            }
+        };
+
+        try
+        {
+            writeAllNamesLongerThanThree.write(dataFile);
+        }
+        catch (IOException e)
+        {
+            System.err.println("Something went wrong writing the result for all names longer than 3 characters: " + e.getMessage());
+        }
     }
 
     private static Path getSourcePath()
