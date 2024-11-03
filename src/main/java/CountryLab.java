@@ -517,6 +517,7 @@ class CountryLab
             try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names with their character counts:" + System.lineSeparator());
+
                 if(countryCharacterCounts.isEmpty())
                 {
                     writer.write("No valid country names found." + System.lineSeparator());
@@ -628,7 +629,7 @@ class CountryLab
 
         matchesDir = Paths.get("matches");
 
-        if (Files.notExists(matchesDir))
+        if(Files.notExists(matchesDir))
         {
             Files.createDirectories(matchesDir);
             System.out.println("Folder created");
