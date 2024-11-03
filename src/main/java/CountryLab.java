@@ -66,7 +66,6 @@ class CountryLab
             throw new RuntimeException("Uh oh! Something went wrong creating CountryLab.", e);
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries with names longer than 10 characters
 
@@ -100,7 +99,6 @@ class CountryLab
             System.err.println("Something went wrong writing data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries that start with the letter A
 
@@ -134,7 +132,6 @@ class CountryLab
             System.err.println("Something went wrong writing data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries with names shorter than 5 characters
 
@@ -168,7 +165,6 @@ class CountryLab
             System.err.println("Something went wrong writing data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries that end with "land"
 
@@ -202,7 +198,6 @@ class CountryLab
             System.err.println("Something went wrong writing data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries containing "United"
 
@@ -238,7 +233,6 @@ class CountryLab
             System.err.println("Something went wrong writing countries containing \"United\" to data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries sorted in ascending order
 
@@ -272,7 +266,6 @@ class CountryLab
             System.err.println("Something went wrong writing ascending order into data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries sorted in descending order
 
@@ -304,7 +297,6 @@ class CountryLab
             System.err.println("Something went wrong writing descending order to data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Countries with unique first letters
 
@@ -354,7 +346,6 @@ class CountryLab
            System.err.println("Something went wrong writing unique first letter countries to data file." + e.getMessage());
        }
 
-        System.out.println("-------------------------------------");
 
         // Count of all countries
 
@@ -383,7 +374,6 @@ class CountryLab
             System.err.println("Something went wrong writing country count to data file." + e.getMessage());
         }
 
-        System.out.println("-------------------------------------");
 
         // Longest country name
 
