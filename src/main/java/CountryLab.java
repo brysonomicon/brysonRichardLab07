@@ -61,7 +61,7 @@ class CountryLab
 
             System.out.println("CountryLab object created");
         }
-        catch(IOException e)
+        catch(final IOException e)
         {
             throw new RuntimeException("Uh oh! Something went wrong creating CountryLab.", e);
         }
@@ -94,7 +94,7 @@ class CountryLab
             writeLongNames.write(dataFile);
             System.out.println("Countries with names longer than 10 written to file");
         }
-        catch(IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing data file." + e.getMessage());
         }
