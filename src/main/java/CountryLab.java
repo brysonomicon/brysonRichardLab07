@@ -56,7 +56,7 @@ class CountryLab
 
             System.out.println("CountryLab object created");
         }
-        catch (IOException e)
+        catch(IOException e)
         {
             throw new RuntimeException("Uh oh! Something went wrong creating CountryLab.", e);
         }
@@ -391,7 +391,7 @@ class CountryLab
                 .max(Comparator.comparingInt(String::length));
 
         writeLongestCountry = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Longest country name:" + System.lineSeparator());
                 writer.write(longestCountry.orElse("No valid country names found.") + System.lineSeparator());
@@ -403,7 +403,7 @@ class CountryLab
             writeLongestCountry.write(dataFile);
             System.out.println("Longest country written to file");
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the longest country name: " + e.getMessage());
         }
@@ -419,7 +419,7 @@ class CountryLab
                 .min(Comparator.comparingInt(String::length));
 
         writeShortestCountry = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Shortest country name:" + System.lineSeparator());
                 writer.write(shortestCountry.orElse("No valid country names found.") + System.lineSeparator());
@@ -431,7 +431,7 @@ class CountryLab
             writeShortestCountry.write(dataFile);
             System.out.println("Shortest country written to file");
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the shortest country name: " + e.getMessage());
         }
@@ -448,10 +448,10 @@ class CountryLab
                 .toList();
 
         writeUpperCaseCountries = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names in uppercase:" + System.lineSeparator());
-                for (final String country : upperCaseCountries)
+                for(final String country : upperCaseCountries)
                 {
                     writer.write(country + System.lineSeparator());
                 }
@@ -463,7 +463,7 @@ class CountryLab
             writeUpperCaseCountries.write(dataFile);
             System.out.println("Uppercase countries written to file");
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the uppercase country names: " + e.getMessage());
         }
@@ -480,16 +480,16 @@ class CountryLab
                 .toList();
 
         writeMultiWordCountries = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names with more than one word:" + System.lineSeparator());
-                if (multiWordCountries.isEmpty())
+                if(multiWordCountries.isEmpty())
                 {
                     writer.write("No country names with more than one word found." + System.lineSeparator());
                 }
                 else
                 {
-                    for (final String country : multiWordCountries)
+                    for(final String country : multiWordCountries)
                     {
                         writer.write(country + System.lineSeparator());
                     }
@@ -502,7 +502,7 @@ class CountryLab
             writeMultiWordCountries.write(dataFile);
             System.out.println("Multi-word countries written to file");
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the country names with more than one word: " + e.getMessage());
         }
@@ -519,16 +519,16 @@ class CountryLab
                 .toList();
 
         writeCountryCharacterCounts = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Country names with their character counts:" + System.lineSeparator());
-                if (countryCharacterCounts.isEmpty())
+                if(countryCharacterCounts.isEmpty())
                 {
                     writer.write("No valid country names found." + System.lineSeparator());
                 }
                 else
                 {
-                    for (final String entry : countryCharacterCounts)
+                    for(final String entry : countryCharacterCounts)
                     {
                         writer.write(entry + System.lineSeparator());
                     }
@@ -541,7 +541,7 @@ class CountryLab
             writeCountryCharacterCounts.write(dataFile);
             System.out.println("Countries mapped to character count written to file");
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the country names with character counts: " + e.getMessage());
         }
@@ -557,7 +557,7 @@ class CountryLab
                 .anyMatch(c -> c.trim().startsWith("Z"));
 
         writeAnyStartsWithZ = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("Any country name starts with 'Z':" + System.lineSeparator());
                 writer.write(anyStartsWithZ + System.lineSeparator());
@@ -569,7 +569,7 @@ class CountryLab
             writeAnyStartsWithZ.write(dataFile);
             System.out.println("Boolean of whether a country starts with Z written to file");
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the result for names starting with 'Z': " + e.getMessage());
         }
@@ -585,7 +585,7 @@ class CountryLab
                 .allMatch(c -> c.trim().length() > 3);
 
         writeAllNamesLongerThanThree = filePath -> {
-            try (final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
                 writer.write("All country names longer than 3 characters:\n");
                 writer.write(allNamesLongerThanThree + System.lineSeparator());
@@ -596,7 +596,7 @@ class CountryLab
         {
             writeAllNamesLongerThanThree.write(dataFile);
         }
-        catch (final IOException e)
+        catch(final IOException e)
         {
             System.err.println("Something went wrong writing the result for all names longer than 3 characters: " + e.getMessage());
         }
@@ -656,7 +656,7 @@ class CountryLab
 
         dataFile = Paths.get("matches", "data.txt");
 
-        if (Files.notExists(dataFile))
+        if(Files.notExists(dataFile))
         {
             Files.createFile(dataFile);
             System.out.println("File created successfully");
