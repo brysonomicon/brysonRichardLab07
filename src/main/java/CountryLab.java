@@ -4,10 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The CountryLab class satisfies all the requirements of the week 8 lab for
@@ -141,21 +139,173 @@ class CountryLab
 
         // Countries containing "United"
 
+        final List<String> containsUnited;
+        final Writeable    writeUnited;
+
+        containsUnited = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .filter(c -> c.contains("United"))
+                .toList();
+
+        writeUnited = filePath -> {
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath,
+                                                                      StandardOpenOption.CREATE,
+                                                                      StandardOpenOption.APPEND))
+            {
+                writer.write("Country names starting with 'United':\n");
+                for(final String country : containsUnited)
+                {
+                    writer.write(country + System.lineSeparator());
+                }
+            }
+        };
+
+        try
+        {
+            writeUnited.write(dataFile);
+        }
+        catch(final IOException e)
+        {
+            System.err.println("Something went wrong writing countries containing \"United\" to data file." + e.getMessage());
+        }
+
         System.out.println("-------------------------------------");
 
         // Countries sorted in ascending order
+
+        final List<String> ascCountries;
+        final Writeable    writeAscCountries;
+
+        ascCountries = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .sorted(Comparator.comparing(String::length))
+                .toList();
+
+        writeAscCountries = filePath -> {
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country names in Ascending Order:\n");
+                for(final String country : ascCountries)
+                {
+                    writer.write(country + System.lineSeparator());
+                }
+            }
+        };
+
+        try
+        {
+            writeAscCountries.write(dataFile);
+        }
+        catch(final IOException e)
+        {
+            System.err.println("Something went wrong writing ascending order into data file." + e.getMessage());
+        }
 
         System.out.println("-------------------------------------");
 
         // Countries sorted in descending order
 
+        final List<String> descCountries;
+        final Writeable    writeDescCountries;
+
+        descCountries = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .sorted(Comparator.comparing(String::length).reversed())
+                .toList();
+
+        writeDescCountries = filePath -> {
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country names in Descending Order:\n");
+                for(final String country : descCountries)
+                    writer.write(country + System.lineSeparator());
+            }
+        };
+
+        try
+        {
+            writeDescCountries.write(dataFile);
+        }
+        catch(final IOException e)
+        {
+            System.err.println("Something went wrong writing descending order to data file." + e.getMessage());
+        }
+
         System.out.println("-------------------------------------");
 
         // Countries with unique first letters
 
+        final Map<Character, List<String>> uniqueFirstLetterCountries;
+        final Writeable                    writeUniqueFirstLetterCountries;
+
+        uniqueFirstLetterCountries = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .collect(Collectors.groupingBy(c -> Character.toUpperCase(c.charAt(0))));
+
+       writeUniqueFirstLetterCountries = filePath -> {
+           try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+           {
+               writer.write("Country names by unique First Letter:\n");
+
+               final List<Map.Entry<Character, List<String>>> entries;
+
+               entries = new ArrayList<>(uniqueFirstLetterCountries.entrySet());
+
+               for(final Map.Entry<Character, List<String>> entry: entries)
+               {
+                   Character firstLetter = entry.getKey();
+                   List<String> groupOfCountries = entry.getValue();
+
+                   writer.write(firstLetter + System.lineSeparator());
+                   groupOfCountries.sort(String::compareTo);
+
+                   for(final String country : groupOfCountries) {
+                       writer.write(country + System.lineSeparator());
+                   }
+               }
+           }
+       };
+
+       try
+       {
+           writeUniqueFirstLetterCountries.write(dataFile);
+       }
+       catch(final IOException e)
+       {
+           System.err.println("Something went wrong writing unique first letter countries to data file." + e.getMessage());
+       }
+
         System.out.println("-------------------------------------");
 
         // Count of all countries
+
+        final long         countryCount;
+        final Writeable    writeCountryCount;
+
+        countryCount = lab.getCountries().stream()
+                .filter(Objects::nonNull)
+                .filter(c -> !c.isBlank())
+                .count();
+
+        writeCountryCount = filePath -> {
+            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
+            {
+                writer.write("Country count: " + countryCount + System.lineSeparator());
+            }
+        };
+
+        try
+        {
+            writeCountryCount.write(dataFile);
+        }
+        catch(final IOException e)
+        {
+            System.err.println("Something went wrong writing country count to data file." + e.getMessage());
+        }
 
         System.out.println("-------------------------------------");
 
