@@ -4,7 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -215,7 +220,7 @@ class CountryLab
                                                                       StandardOpenOption.CREATE,
                                                                       StandardOpenOption.APPEND))
             {
-                writer.write("Country names starting with 'United':\n");
+                writer.write("Country names starting with 'United':" + System.lineSeparator());
                 for(final String country : containsUnited)
                 {
                     writer.write(country + System.lineSeparator());
@@ -283,7 +288,7 @@ class CountryLab
         writeDescCountries = filePath -> {
             try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
-                writer.write("Country names in Descending Order:\n");
+                writer.write("Country names in Descending Order:" + System.lineSeparator());
                 for(final String country : descCountries)
                     writer.write(country + System.lineSeparator());
             }
@@ -314,7 +319,7 @@ class CountryLab
        writeUniqueFirstLetterCountries = filePath -> {
            try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
            {
-               writer.write("Country names by unique First Letter:\n");
+               writer.write("Country names by unique First Letter:" + System.lineSeparator());
 
                final List<Map.Entry<Character, List<String>>> entries;
 
@@ -587,7 +592,7 @@ class CountryLab
         writeAllNamesLongerThanThree = filePath -> {
             try(final BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND))
             {
-                writer.write("All country names longer than 3 characters:\n");
+                writer.write("All country names longer than 3 characters:" + System.lineSeparator());
                 writer.write(allNamesLongerThanThree + System.lineSeparator());
             }
         };
